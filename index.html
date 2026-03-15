@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RiftVenator — Le Monde des Éveillés</title>
+<meta name="description" content="Plonge dans l'univers de RiftVenator : donjons, portails, éveillés et guildes. Guides, lore, classements et stratégies pour maîtriser les failles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #020408;
+    --abyss: #080d14;
+    --shadow: #0d1520;
+    --rift-blue: #0a3d6b;
+    --rift-glow: #1a7fd4;
+    --portal: #4db8ff;
+    --arcane: #7b4dff;
+    --arcane-glow: #a67cff;
+    --gold: #c8973a;
+    --gold-bright: #f0c060;
+    --blood: #8b1a1a;
+    --crimson: #cc2222;
+    --mist: rgba(77,184,255,0.06);
+    --text-prime: #e8edf5;
+    --text-dim: #8a9bb5;
+    --text-ghost: #4a5a70;
+    --border-rift: rgba(77,184,255,0.2);
+    --border-arcane: rgba(123,77,255,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: var(--void);
+    color: var(--text-prime);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── HERO SECTION ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 60%, rgba(26,127,212,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 30% 30%, rgba(123,77,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 70% 80%, rgba(10,61,107,0.15) 0%, transparent 60%),
+      linear-gradient(180deg, #020408 0%, #060e1a 50%, #020408 100%);
+  }
+
+  /* Animated portal rings */
+  .portal-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid;
+    animation: portalPulse 4s ease-in-out infinite;
+  }
+  .portal-ring:nth-child(1) {
+    width: 300px; height: 300px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-color: rgba(77,184,255,0.15);
+    animation-delay: 0s;
+  }
+  .portal-ring:nth-child(2) {
+    width: 500px; height: 500px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-color: rgba(77,184,255,0.08);
+    animation-delay: 0.8s;
+  }
+  .portal-ring:nth-child(3) {
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-color: rgba(123,77,255,0.05);
+    animation-delay: 1.6s;
+  }
+  .portal-ring:nth-child(4) {
+    width: 950px; height: 950px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-color: rgba(77,184,255,0.03);
+    animation-delay: 2.4s;
+  }
+
+  @keyframes portalPulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+  }
+
+  /* Floating particles */
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--portal);
+    border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
+  }
+  @keyframes float {
+    0% { opacity: 0; transform: translateY(100vh) translateX(0); }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.4; }
+    100% { opacity: 0; transform: translateY(-10vh) translateX(var(--drift)); }
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--portal);
+    border: 1px solid var(--border-rift);
+    padding: 0.4rem 1.2rem;
+    margin-bottom: 2rem;
+    background: rgba(77,184,255,0.05);
+    animation: fadeInDown 1s ease 0.2s both;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3em;
+    animation: fadeInDown 1s ease 0.4s both;
+  }
+
+  .title-rift { color: var(--text-prime); }
+  .title-venator {
+    display: block;
+    background: linear-gradient(135deg, var(--portal) 0%, var(--arcane-glow) 50%, var(--gold-bright) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(77,184,255,0.4));
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-style: italic;
+    color: var(--text-dim);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+    animation: fadeInDown 1s ease 0.6s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInDown 1s ease 0.8s both;
+  }
+
+  .btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    padding: 0.9rem 2.5rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--rift-blue), var(--arcane));
+    color: white;
+    box-shadow: 0 0 30px rgba(77,184,255,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 50px rgba(77,184,255,0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border-rift);
+  }
+  .btn-ghost:hover {
+    color: var(--portal);
+    border-color: var(--portal);
+    background: rgba(77,184,255,0.05);
+  }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--text-ghost);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeInDown 1s ease 1.2s both;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--portal), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(2,4,8,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-rift);
+    transition: all 0.3s ease;
+  }
+  .nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--portal);
+    letter-spacing: 0.05em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--portal); }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 6rem 2rem; }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--portal);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border-rift), transparent);
+    max-width: 200px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  /* ─── RANKING SYSTEM ─── */
+  .ranks-section { background: var(--abyss); }
+
+  .ranks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .rank-card {
+    position: relative;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    border: 1px solid;
+    background: var(--shadow);
+    transition: all 0.4s ease;
+    overflow: hidden;
+  }
+  .rank-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--rank-color, var(--portal));
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+  .rank-card:hover { transform: translateY(-4px); }
+  .rank-card:hover::before { transform: scaleX(1); }
+
+  .rank-card[data-rank="faible"] {
+    --rank-color: #888; border-color: rgba(136,136,136,0.2);
+  }
+  .rank-card[data-rank="moyen"] {
+    --rank-color: #4db8ff; border-color: rgba(77,184,255,0.25);
+  }
+  .rank-card[data-rank="elite"] {
+    --rank-color: #a67cff; border-color: rgba(166,124,255,0.3);
+  }
+  .rank-card[data-rank="legende"] {
+    --rank-color: #f0c060; border-color: rgba(240,192,96,0.4);
+    background: linear-gradient(135deg, rgba(200,151,58,0.05), var(--shadow));
+  }
+
+  .rank-symbol {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--rank-color);
+    filter: drop-shadow(0 0 10px var(--rank-color));
+  }
+  .rank-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--rank-color);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .rank-desc {
+    font-size: 0.85rem;
+    color: var(--text-ghost);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ─── CLASSES ─── */
+  .classes-section { background: var(--void); }
+
+  .classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .class-card {
+    position: relative;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid var(--border-rift);
+    background: linear-gradient(135deg, var(--shadow), var(--abyss));
+    transition: all 0.4s ease;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .class-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, var(--class-color, rgba(77,184,255,0.1)) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .class-card:hover { border-color: var(--class-color, var(--portal)); transform: translateY(-6px); }
+  .class-card:hover::after { opacity: 1; }
+
+  .class-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .class-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    color: var(--text-prime);
+    margin-bottom: 0.5rem;
+  }
+  .class-role {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--class-color, var(--portal));
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .class-desc {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .class-card[data-class="guerrier"] { --class-color: rgba(204,34,34,0.6); }
+  .class-card[data-class="assassin"] { --class-color: rgba(123,77,255,0.6); }
+  .class-card[data-class="mage"] { --class-color: rgba(77,184,255,0.6); }
+  .class-card[data-class="invocateur"] { --class-color: rgba(34,170,100,0.6); }
+  .class-card[data-class="tank"] { --class-color: rgba(200,151,58,0.6); }
+
+  /* ─── ARTICLES BLOG ─── */
+  .blog-section { background: var(--abyss); }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .article-card {
+    position: relative;
+    border: 1px solid var(--border-rift);
+    background: var(--shadow);
+    transition: all 0.4s ease;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .article-card:hover { border-color: rgba(77,184,255,0.5); transform: translateY(-4px); }
+
+  .article-tag-bar {
+    height: 3px;
+    background: linear-gradient(to right, var(--article-color, var(--rift-glow)), transparent);
+  }
+
+  .article-img {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: linear-gradient(135deg, var(--abyss), var(--shadow));
+    position: relative;
+    overflow: hidden;
+  }
+  .article-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, var(--article-color, rgba(77,184,255,0.1)) 0%, transparent 70%);
+  }
+
+  .article-body { padding: 1.5rem; }
+
+  .article-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-ghost);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .article-tag {
+    color: var(--article-color, var(--portal));
+    border: 1px solid var(--article-color, var(--border-rift));
+    padding: 0.15rem 0.6rem;
+  }
+
+  .article-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+    color: var(--text-prime);
+  }
+
+  .article-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-read {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--article-color, var(--portal));
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.3s;
+  }
+  .article-read:hover { gap: 1rem; }
+
+  /* ─── LORE / MYSTERY ─── */
+  .lore-section {
+    background: linear-gradient(180deg, var(--void) 0%, rgba(10,30,60,0.3) 50%, var(--void) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .lore-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(ellipse, rgba(123,77,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .lore-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .lore-questions { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .lore-item {
+    padding: 1.5rem;
+    border-left: 2px solid var(--arcane);
+    background: linear-gradient(to right, rgba(123,77,255,0.05), transparent);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .lore-item:hover { border-left-color: var(--arcane-glow); padding-left: 2rem; }
+
+  .lore-q {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.95rem;
+    color: var(--arcane-glow);
+    margin-bottom: 0.5rem;
+  }
+  .lore-a {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .lore-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .portal-viz {
+    width: 280px; height: 280px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pv-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid;
+    animation: portalSpin linear infinite;
+  }
+  .pv-ring:nth-child(1) {
+    width: 100%; height: 100%;
+    border-color: rgba(123,77,255,0.4);
+    animation-duration: 20s;
+  }
+  .pv-ring:nth-child(2) {
+    width: 78%; height: 78%;
+    border-color: rgba(77,184,255,0.3);
+    animation-duration: 15s;
+    animation-direction: reverse;
+  }
+  .pv-ring:nth-child(3) {
+    width: 56%; height: 56%;
+    border-color: rgba(123,77,255,0.4);
+    animation-duration: 10s;
+  }
+  .pv-core {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(77,184,255,0.3) 0%, rgba(123,77,255,0.2) 50%, transparent 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 20px rgba(77,184,255,0.6));
+    animation: corePulse 3s ease-in-out infinite;
+  }
+  @keyframes portalSpin { to { transform: rotate(360deg); } }
+  @keyframes corePulse {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(77,184,255,0.4)); }
+    50% { filter: drop-shadow(0 0 40px rgba(77,184,255,0.9)); }
+  }
+
+  /* ─── NEWSLETTER / JOIN ─── */
+  .join-section {
+    background: var(--shadow);
+    border-top: 1px solid var(--border-rift);
+    border-bottom: 1px solid var(--border-rift);
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+
+  .join-form {
+    display: flex;
+    gap: 0;
+    max-width: 500px;
+    margin: 2rem auto 0;
+  }
+  .join-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: var(--abyss);
+    border: 1px solid var(--border-rift);
+    border-right: none;
+    color: var(--text-prime);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .join-input:focus { border-color: var(--portal); }
+  .join-input::placeholder { color: var(--text-ghost); }
+  .join-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--rift-blue), var(--arcane));
+    color: white;
+    border: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .join-btn:hover { opacity: 0.85; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--void);
+    border-top: 1px solid rgba(77,184,255,0.08);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.5rem;
+    color: var(--portal);
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(77,184,255,0.3));
+  }
+  .footer-text {
+    font-size: 0.85rem;
+    color: var(--text-ghost);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    margin-bottom: 2rem;
+  }
+  .footer-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-ghost);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--portal); }
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--text-ghost);
+    text-transform: uppercase;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .lore-grid { grid-template-columns: 1fr; }
+    .lore-visual { display: none; }
+    .join-form { flex-direction: column; }
+    .join-input { border-right: 1px solid var(--border-rift); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">⟨ RIFT ✦ VENATOR ⟩</div>
+  <ul class="nav-links">
+    <li><a href="#ranks">Classement</a></li>
+    <li><a href="#classes">Classes</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#lore">Lore</a></li>
+    <li><a href="#rejoindre">Rejoindre</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="portal-ring"></div>
+    <div class="portal-ring"></div>
+    <div class="portal-ring"></div>
+    <div class="portal-ring"></div>
+  </div>
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">⬡ SYSTÈME D'ÉVEIL ACTIVÉ ⬡</div>
+    <h1 class="hero-title">
+      <span class="title-rift">RIFT</span>
+      <span class="title-venator">VENATOR</span>
+    </h1>
+    <p class="hero-sub">
+      Les failles déchirent le monde. Les éveillés s'élèvent.<br>
+      Guides, lore, classes et stratégies pour dominer les donjons.
+    </p>
+    <div class="hero-cta">
+      <a href="#articles" class="btn btn-primary">Explorer les Articles</a>
+      <a href="#lore" class="btn btn-ghost">Découvrir le Lore</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>DÉFILER</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- CLASSEMENT -->
+<section class="ranks-section" id="ranks">
+  <div class="container">
+    <div class="section-label fade-in">◈ SYSTÈME DE RANG</div>
+    <h2 class="section-title fade-in">Les Rangs des Éveillés</h2>
+    <p class="fade-in" style="color:var(--text-dim); max-width:600px; font-size:1.05rem; font-style:italic; line-height:1.7; margin-bottom:0.5rem;">
+      Chaque éveillé est classé dès son éveil selon la puissance de ses capacités. Mais le rang n'est pas une destinée — il peut évoluer.
+    </p>
+    <div class="ranks-grid">
+      <div class="rank-card fade-in" data-rank="faible">
+        <div class="rank-symbol">◇</div>
+        <div class="rank-name">Faible</div>
+        <p class="rank-desc">À peine éveillés, peu de combattants atteignent les donjons de rang 1 sans périr.</p>
+      </div>
+      <div class="rank-card fade-in" data-rank="moyen">
+        <div class="rank-symbol">◈</div>
+        <div class="rank-name">Moyen</div>
+        <p class="rank-desc">La majorité des membres de guildes. Capables de nettoyer les donjons standards.</p>
+      </div>
+      <div class="rank-card fade-in" data-rank="elite">
+        <div class="rank-symbol">⬟</div>
+        <div class="rank-name">Élite</div>
+        <p class="rank-desc">Redoutés et recrutés par les grandes guildes. Ils affrontent les boss de rang S.</p>
+      </div>
+      <div class="rank-card fade-in" data-rank="legende">
+        <div class="rank-symbol">✦</div>
+        <div class="rank-name">Légende</div>
+        <p class="rank-desc">Au-delà du classement. Leur seule présence ferme les failles. Moins de 10 dans le monde.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLASSES -->
+<section class="classes-section" id="classes">
+  <div class="container">
+    <div class="section-label fade-in">⬡ CLASSES D'ÉVEIL</div>
+    <h2 class="section-title fade-in">Choisir sa Voie</h2>
+    <p class="fade-in" style="color:var(--text-dim); max-width:600px; font-size:1.05rem; font-style:italic; line-height:1.7;">
+      L'éveil révèle ta nature profonde. Certains naissent pour détruire, d'autres pour protéger. Aucune classe n'est inférieure — toutes ont leur rôle dans les donjons.
+    </p>
+    <div class="classes-grid">
+      <div class="class-card fade-in" data-class="guerrier">
+        <span class="class-icon">⚔️</span>
+        <div class="class-name">Guerrier</div>
+        <div class="class-role">Dégâts · Corps à corps</div>
+        <p class="class-desc">Force brute et résistance. Les guerriers avancent là où les autres reculent.</p>
+      </div>
+      <div class="class-card fade-in" data-class="assassin">
+        <span class="class-icon">🗡️</span>
+        <div class="class-name">Assassin</div>
+        <div class="class-role">Burst · Furtivité</div>
+        <p class="class-desc">Invisibles jusqu'au dernier instant. Un assassin de rang légendaire peut effacer un boss en secondes.</p>
+      </div>
+      <div class="class-card fade-in" data-class="mage">
+        <span class="class-icon">🔮</span>
+        <div class="class-name">Mage</div>
+        <div class="class-role">Magie · AoE</div>
+        <p class="class-desc">Maîtres des éléments et des arcanes. Dévastateurs à distance, fragiles de près.</p>
+      </div>
+      <div class="class-card fade-in" data-class="invocateur">
+        <span class="class-icon">👁️</span>
+        <div class="class-name">Invocateur</div>
+        <div class="class-role">Contrôle · Armée</div>
+        <p class="class-desc">Ils retournent les créatures des donjons contre elles-mêmes. La classe la plus rare.</p>
+      </div>
+      <div class="class-card fade-in" data-class="tank">
+        <span class="class-icon">🛡️</span>
+        <div class="class-name">Tank</div>
+        <div class="class-role">Protection · Soutien</div>
+        <p class="class-desc">Sans tank, aucune équipe ne survit aux boss de rang A. La colonne vertébrale des guildes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section class="blog-section" id="articles">
+  <div class="container">
+    <div class="section-label fade-in">◉ ARCHIVES DU SAVOIR</div>
+    <h2 class="section-title fade-in">Derniers Articles</h2>
+    <div class="articles-grid">
+
+      <article class="article-card fade-in" style="--article-color: rgba(204,34,34,0.7)">
+        <div class="article-tag-bar"></div>
+        <div class="article-img">⚔️</div>
+        <div class="article-body">
+          <div class="article-meta">
+            <span class="article-tag">Guide</span>
+            <span>6 min de lecture</span>
+          </div>
+          <h3 class="article-title">Comment Survivre à son Premier Donjon de Rang B</h3>
+          <p class="article-excerpt">Les statistiques sont claires : 73% des éveillés de rang moyen périssent dans leur premier donjon B. Voici les erreurs à éviter et les stratégies qui sauvent des vies.</p>
+          <a href="#" class="article-read">Lire l'article →</a>
+        </div>
+      </article>
+
+      <article class="article-card fade-in" style="--article-color: rgba(166,124,255,0.7)">
+        <div class="article-tag-bar"></div>
+        <div class="article-img">👁️</div>
+        <div class="article-body">
+          <div class="article-meta">
+            <span class="article-tag">Lore</span>
+            <span>10 min de lecture</span>
+          </div>
+          <h3 class="article-title">Les Invocateurs : Pourquoi sont-ils Craints des Guildes ?</h3>
+          <p class="article-excerpt">Retourner des monstres contre leurs semblables — un pouvoir qui terrifie autant qu'il fascine. L'histoire des invocateurs est écrite dans le sang des guildes qui les ont trahis.</p>
+          <a href="#" class="article-read">Lire l'article →</a>
+        </div>
+      </article>
+
+      <article class="article-card fade-in" style="--article-color: rgba(240,192,96,0.7)">
+        <div class="article-tag-bar"></div>
+        <div class="article-img">✦</div>
+        <div class="article-body">
+          <div class="article-meta">
+            <span class="article-tag">Classement</span>
+            <span>5 min de lecture</span>
+          </div>
+          <h3 class="article-title">Les 5 Éveillés de Rang Légende — Qui Sont-ils Vraiment ?</h3>
+          <p class="article-excerpt">Ils n'apparaissent que lors des failles de rang S. Certains disent qu'ils ne sont plus vraiment humains. Voici ce que l'on sait sur les cinq seuls Légendaires confirmés.</p>
+          <a href="#" class="article-read">Lire l'article →</a>
+        </div>
+      </article>
+
+      <article class="article-card fade-in" style="--article-color: rgba(77,184,255,0.7)">
+        <div class="article-tag-bar"></div>
+        <div class="article-img">🌀</div>
+        <div class="article-body">
+          <div class="article-meta">
+            <span class="article-tag">Failles</span>
+            <span>8 min de lecture</span>
+          </div>
+          <h3 class="article-title">Anatomie d'une Faille : Comment les Portails s'Ouvrent-ils ?</h3>
+          <p class="article-excerpt">Des scientifiques éveillés ont étudié les portails. Leurs conclusions sont troublantes : les failles ne s'ouvrent pas au hasard. Quelqu'un — ou quelque chose — les contrôle.</p>
+          <a href="#" class="article-read">Lire l'article →</a>
+        </div>
+      </article>
+
+      <article class="article-card fade-in" style="--article-color: rgba(34,170,100,0.7)">
+        <div class="article-tag-bar"></div>
+        <div class="article-img">🏰</div>
+        <div class="article-body">
+          <div class="article-meta">
+            <span class="article-tag">Guildes</span>
+            <span>7 min de lecture</span>
+          </div>
+          <h3 class="article-title">Rejoindre une Guilde : Guide Complet pour les Nouveaux Éveillés</h3>
+          <p class="article-excerpt">Toutes les guildes ne se valent pas. Certaines exploitent leurs membres, d'autres les forment. Comment choisir la bonne, négocier son contrat et grimper les rangs internes.</p>
+          <a href="#" class="article-read">Lire l'article →</a>
+        </div>
+      </article>
+
+      <article class="article-card fade-in" style="--article-color: rgba(200,151,58,0.7)">
+        <div class="article-tag-bar"></div>
+        <div class="article-img">🗡️</div>
+        <div class="article-body">
+          <div class="article-meta">
+            <span class="article-tag">Artefacts</span>
+            <span>9 min de lecture</span>
+          </div>
+          <h3 class="article-title">Top 10 des Artefacts les Plus Puissants Jamais Extraits</h3>
+          <p class="article-excerpt">De l'Épée du Démon de l'Abîsse à la Relique du Dieu Silencieux — ces objets ont changé l'équilibre du monde. Certains ont causé des guerres entre guildes.</p>
+          <a href="#" class="article-read">Lire l'article →</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- LORE -->
+<section class="lore-section" id="lore">
+  <div class="container">
+    <div class="section-label fade-in">◈ MYSTÈRES DU MONDE</div>
+    <h2 class="section-title fade-in">Les Questions Sans Réponse</h2>
+    <div class="lore-grid">
+      <div class="lore-questions">
+        <div class="lore-item fade-in">
+          <div class="lore-q">Pourquoi les portails existent-ils ?</div>
+          <p class="lore-a">Aucune théorie officielle ne fait consensus. Les failles semblent suivre un schéma géographique précis — comme si elles formaient une carte que personne n'a encore déchiffrée.</p>
+        </div>
+        <div class="lore-item fade-in">
+          <div class="lore-q">Qui contrôle les monstres ?</div>
+          <p class="lore-a">Les créatures des donjons ne sont pas des animaux sauvages. Elles sont organisées. Des scouts précèdent les vagues. Des boss commandent les hordes. Il y a une intelligence derrière.</p>
+        </div>
+        <div class="lore-item fade-in">
+          <div class="lore-q">Quelle est la vraie guerre ?</div>
+          <p class="lore-a">Certains Légendaires refusent de parler de ce qu'ils ont vu au fond des donjons de rang S. Un seul a parlé, une fois : "Nous ne sommes pas les chasseurs. Nous sommes le gibier."</p>
+        </div>
+        <div class="lore-item fade-in">
+          <div class="lore-q">D'où viennent les pouvoirs d'éveil ?</div>
+          <p class="lore-a">L'éveil n'est pas aléatoire. Des familles entières s'éveillent. Des quartiers entiers restent non-éveillés. Le pouvoir semble choisi par quelque chose qui observe depuis les failles.</p>
+        </div>
+      </div>
+      <div class="lore-visual fade-in">
+        <div class="portal-viz">
+          <div class="pv-ring"></div>
+          <div class="pv-ring"></div>
+          <div class="pv-ring"></div>
+          <div class="pv-core">🌀</div>
+        </div>
+        <p style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; letter-spacing:0.2em; color:var(--text-ghost); text-transform:uppercase; margin-top:1rem; text-align:center;">Faille de Rang Inconnu — Non Cartographiée</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="join-section" id="rejoindre">
+  <div class="container">
+    <div class="section-label fade-in" style="justify-content:center">⬡ REJOINDRE LA GUILDE</div>
+    <h2 class="section-title fade-in" style="margin-bottom:1rem">Reçois le Lore en Premier</h2>
+    <p class="fade-in" style="color:var(--text-dim); font-size:1.05rem; font-style:italic; max-width:500px; margin:0 auto; line-height:1.7;">
+      Nouveaux articles, théories sur les failles, guides exclusifs — directement dans ta boîte mail. Aucun spam, seulement du contenu digne d'un éveillé.
+    </p>
+    <div class="join-form fade-in">
+      <input type="email" class="join-input" placeholder="ton.email@domaine.com">
+      <button class="join-btn">S'éveiller →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">⟨ RIFT ✦ VENATOR ⟩</div>
+  <p class="footer-text">"Les failles ne se ferment pas. Elles attendent."</p>
+  <ul class="footer-links">
+    <li><a href="#ranks">Classement</a></li>
+    <li><a href="#classes">Classes</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#lore">Lore</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 RiftVenator · Tous droits réservés · Univers fictif</p>
+</footer>
+
+<script>
+  // Particles
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.setProperty('--drift', (Math.random() * 100 - 50) + 'px');
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+    p.style.opacity = Math.random() * 0.6;
+    // Some particles are arcane colored
+    if (Math.random() > 0.6) p.style.background = '#a67cff';
+    container.appendChild(p);
+  }
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+      nav.style.padding = '0.7rem 2rem';
+    } else {
+      nav.style.padding = '1rem 2rem';
+    }
+  });
+</script>
+</body>
+</html>

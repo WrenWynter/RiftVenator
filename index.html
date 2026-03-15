@@ -806,25 +806,38 @@
     <p class="fade-in" style="color:var(--text-dim); max-width:600px; font-size:1.05rem; font-style:italic; line-height:1.7; margin-bottom:0.5rem;">
       Chaque éveillé est classé dès son éveil selon la puissance de ses capacités.
     <div class="ranks-grid">
-      <div class="rank-card fade-in" data-rank="faible">
+      <div class="rank-card fade-in" data-rank="RANG E">
         <div class="rank-symbol">◇</div>
         <div class="rank-name"> RANG E </div>
-        <p class="rank-desc">À peine éveillés, peu de combattants atteignent les donjons de rang 1 sans périr.</p>
+        <p class="rank-desc">Chasseurs très faibles, quasiment humains normaux, utilisés pour des missions de faible danger ou de soutien.</p>
       </div>
-      <div class="rank-card fade-in" data-rank="moyen">
+      <div class="rank-card fade-in" data-rank="RANG D">
         <div class="rank-symbol">◈</div>
-        <div class="rank-name">Moyen</div>
-        <p class="rank-desc">La majorité des membres de guildes. Capables de nettoyer les donjons standards.</p>
+        <div class="rank-name"> RANG D </div>
+        <p class="rank-desc">Légèrement plus puissants, capables de gérer des monstres faibles et d’assumer un rôle marginal dans les équipes</p>
       </div>
       <div class="rank-card fade-in" data-rank="elite">
         <div class="rank-symbol">⬟</div>
         <div class="rank-name">Élite</div>
         <p class="rank-desc">Redoutés et recrutés par les grandes guildes. Ils affrontent les boss de rang S.</p>
       </div>
-      <div class="rank-card fade-in" data-rank="legende">
+      <div class="rank-card fade-in" data-rank="Rang C">
         <div class="rank-symbol">✦</div>
-        <div class="rank-name">Légende</div>
-        <p class="rank-desc">Au-delà du classement. Leur seule présence ferme les failles. Moins de 10 dans le monde.</p>
+        <div class="rank-name">Rang C</div>
+        <p class="rank-desc">Niveau intermédiaire, combattants compétents et autonomes, capables de missions plus complexes et de raids modérés.</p>
+         </div>
+      <div class="rank-card fade-in" data-rank="Rang B">
+        <div class="rank-symbol">✦</div>
+        <div class="rank-name">Rang B</div>
+        <p class="rank-desc">Puissants et expérimentés, affrontent des boss intermédiaires et occupent des positions stratégiques dans les guildes.</p>
+          <div class="rank-card fade-in" data-rank="Rang A">
+        <div class="rank-symbol">✦</div>
+        <div class="rank-name">Rang A</div>
+        <p class="rank-desc">Très rares, capables de diriger des raids complexes et de neutraliser des adversaires dangereux.</p>
+   <div class="rank-card fade-in" data-rank="Rang S">
+        <div class="rank-symbol">✦</div>
+        <div class="rank-name">Rang S</div>
+        <p class="rank-desc">Exceptionnellement puissants, capables de gérer des menaces catastrophiques et de bouleverser l’équilibre stratégique à grande échelle.</p>
       </div>
     </div>
   </div>
@@ -834,40 +847,45 @@
 <section class="classes-section" id="classes">
   <div class="container">
     <div class="section-label fade-in">⬡ CLASSES D'ÉVEIL</div>
-    <h2 class="section-title fade-in">Choisir sa Voie</h2>
+    <h2 class="section-title fade-in">Classe prédefini à l'éveil</h2>
     <p class="fade-in" style="color:var(--text-dim); max-width:600px; font-size:1.05rem; font-style:italic; line-height:1.7;">
-      L'éveil révèle ta nature profonde. Certains naissent pour détruire, d'autres pour protéger. Aucune classe n'est inférieure — toutes ont leur rôle dans les donjons.
-    </p>
-    <div class="classes-grid">
+      L'éveil révèle ta nature profonde. 
       <div class="class-card fade-in" data-class="guerrier">
         <span class="class-icon">⚔️</span>
-        <div class="class-name">Guerrier</div>
+        <div class="class-name">Guerrier (Warrior)</div>
         <div class="class-role">Dégâts · Corps à corps</div>
-        <p class="class-desc">Force brute et résistance. Les guerriers avancent là où les autres reculent.</p>
+        <p class="class-desc">Expert en combat physique rapproché, souvent équipé d’armes lourdes. Grande résistance mais moins de mobilité.</p>
       </div>
       <div class="class-card fade-in" data-class="assassin">
         <span class="class-icon">🗡️</span>
-        <div class="class-name">Assassin</div>
+        <div class="class-name">Assassin / Rogue</div>
         <div class="class-role">Burst · Furtivité</div>
-        <p class="class-desc">Invisibles jusqu'au dernier instant. Un assassin de rang légendaire peut effacer un boss en secondes.</p>
+        <p class="class-desc">Spécialisé dans la rapidité et les attaques furtives. Faible défense mais très agile et mortel en combat singulier.</p>
       </div>
       <div class="class-card fade-in" data-class="mage">
         <span class="class-icon">🔮</span>
-        <div class="class-name">Mage</div>
+        <div class="class-name">Mage (Sorcerer / Mage)</div>
         <div class="class-role">Magie · AoE</div>
-        <p class="class-desc">Maîtres des éléments et des arcanes. Dévastateurs à distance, fragiles de près.</p>
+        <p class="class-desc">utilise la magie offensive et défensive. Puissant à distance mais fragile au corps à corps.</p>
       </div>
-      <div class="class-card fade-in" data-class="invocateur">
-        <span class="class-icon">👁️</span>
-        <div class="class-name">Invocateur</div>
+      <div class="class-card fade-in" data-class="Archer">
+        <span class="class-icon">🏹</span>
+        <div class="class-name">Archer / Ranger</div>
         <div class="class-role">Contrôle · Armée</div>
-        <p class="class-desc">Ils retournent les créatures des donjons contre elles-mêmes. La classe la plus rare.</p>
+        <p class="class-desc">Attaque à distance avec arcs ou armes à feu. Polyvalent mais dépend de la distance pour être efficace.</p>
       </div>
       <div class="class-card fade-in" data-class="tank">
         <span class="class-icon">🛡️</span>
-        <div class="class-name">Tank</div>
-        <div class="class-role">Protection · Soutien</div>
-        <p class="class-desc">Sans tank, aucune équipe ne survit aux boss de rang A. La colonne vertébrale des guildes.</p>
+        <div class="class-name">Tank / Guardian</div>
+        <div class="class-role">Protection · Encaisse</div>
+        <p class="class-desc">Encaisse les dégâts pour protéger les alliés, souvent très résistant mais peu offensif.</p>
+      </div>
+     </div>
+      <div class="class-card fade-in" data-class="Soutien">
+        <span class="class-icon">🍃</span>
+        <div class="class-name">Soutien / Healer</div>
+        <div class="class-role">Buff · Soutien</div>
+        <p class="class-desc">Soigne ou renforce l’équipe, peu de puissance offensive mais crucial pour la survie.</p>
       </div>
     </div>
   </div>

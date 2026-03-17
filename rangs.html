@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Système de Rangs — RiftVenator</title>
+<meta name="description" content="Système de classement complet des éveillés sur RiftVenator : du Rang E au Rang SS. Comment progresser, épreuves de passage de rang, avantages.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--void:#020408;--abyss:#080d14;--shadow:#0d1520;--portal:#4db8ff;--arcane:#7b4dff;--arcane-glow:#a67cff;--gold-bright:#f0c060;--text-prime:#e8edf5;--text-dim:#8a9bb5;--text-ghost:#4a5a70;--border-rift:rgba(77,184,255,0.2);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--void);color:var(--text-prime);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(2,4,8,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-rift);transition:padding 0.3s;}
+.nav-logo{font-family:'Cinzel Decorative',serif;font-size:1rem;font-weight:700;color:var(--portal);text-decoration:none;}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--portal);}
+.page-hero{padding:8rem 2rem 4rem;text-align:center;position:relative;background:linear-gradient(180deg,var(--abyss),var(--void));border-bottom:1px solid var(--border-rift);}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(77,184,255,0.06) 0%,transparent 70%);}
+.page-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--portal);text-transform:uppercase;margin-bottom:1rem;position:relative;}
+.page-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;margin-bottom:1rem;position:relative;}
+.page-desc{font-size:1.1rem;font-style:italic;color:var(--text-dim);max-width:600px;margin:0 auto;line-height:1.7;position:relative;}
+.container{max-width:1000px;margin:0 auto;padding:0 2rem;}
+
+/* RANK TIMELINE */
+.ranks-timeline{padding:5rem 2rem;background:var(--abyss);}
+.rank-entry{display:grid;grid-template-columns:120px 1fr;gap:3rem;margin-bottom:0;position:relative;}
+.rank-entry::before{content:'';position:absolute;left:59px;top:80px;bottom:-40px;width:1px;background:linear-gradient(to bottom,var(--rc,var(--border-rift)),transparent);}
+.rank-entry:last-child::before{display:none;}
+.rank-left{text-align:center;padding-top:1rem;}
+.rank-symbol-big{font-family:'Cinzel Decorative',serif;font-size:2.8rem;color:var(--rc,var(--portal));filter:drop-shadow(0 0 15px var(--rc,rgba(77,184,255,0.4)));margin-bottom:0.3rem;}
+.rank-letter{font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.3em;color:var(--rc,var(--portal));text-transform:uppercase;font-weight:700;}
+.rank-right{border:1px solid var(--rc,var(--border-rift));padding:2rem 2.5rem;margin-bottom:2.5rem;background:var(--shadow);position:relative;overflow:hidden;}
+.rank-right::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--rc,var(--portal)),transparent);}
+.rank-title{font-family:'Cinzel Decorative',serif;font-size:1.3rem;margin-bottom:0.3rem;}
+.rank-subtitle{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--rc,var(--portal));text-transform:uppercase;margin-bottom:1rem;}
+.rank-body p{font-size:1rem;color:var(--text-dim);line-height:1.8;margin-bottom:0.8rem;}
+.rank-body p strong{color:var(--text-prime);}
+.rank-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,0.04);}
+.rank-stat{text-align:center;}
+.rank-stat-val{font-family:'Share Tech Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--rc,var(--portal));}
+.rank-stat-label{font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;color:var(--text-ghost);text-transform:uppercase;margin-top:2px;}
+.rank-epreuve{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);padding:1rem 1.5rem;margin-top:1rem;}
+.rank-epreuve-title{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-ghost);text-transform:uppercase;margin-bottom:0.5rem;}
+.rank-epreuve p{font-size:0.9rem;color:var(--text-dim);margin:0;font-style:italic;}
+
+/* PROGRESSION INFO */
+.progression-section{padding:5rem 2rem;background:var(--void);}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;}
+.info-card{border:1px solid var(--border-rift);padding:2rem;background:var(--shadow);}
+.info-card h3{font-family:'Cinzel Decorative',serif;font-size:1.1rem;margin-bottom:1rem;color:var(--portal);}
+.info-card p{font-size:0.95rem;color:var(--text-dim);line-height:1.7;}
+.section-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--portal);text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:1rem;}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border-rift),transparent);max-width:200px;}
+.section-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;}
+footer{background:var(--void);border-top:1px solid rgba(77,184,255,0.08);padding:3rem 2rem;text-align:center;}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--portal);margin-bottom:1rem;}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;list-style:none;margin:1rem 0;flex-wrap:wrap;}
+.footer-links a{font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--text-ghost);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.footer-links a:hover{color:var(--portal);}
+.footer-copy{font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--text-ghost);text-transform:uppercase;margin-top:1rem;}
+@media(max-width:768px){.nav-links{display:none;}.rank-entry{grid-template-columns:80px 1fr;gap:1.5rem;}.info-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">⟨ RIFT ✦ VENATOR ⟩</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="rangs.html" class="active">Rangs</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="portails.html">Portails</a></li>
+    <li><a href="donjons.html">Donjons</a></li>
+    <li><a href="guildes.html">Guildes</a></li>
+    <li><a href="artefacts.html">Artefacts</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-label">◈ SYSTÈME DE CLASSEMENT</div>
+  <h1 class="page-title">Les Rangs des Éveillés</h1>
+  <p class="page-desc">Du rang E au rang SS — chaque niveau représente non seulement une puissance, mais une transformation profonde de l'être humain en quelque chose d'autre.</p>
+</div>
+
+<div class="ranks-timeline">
+<div class="container">
+
+  <div class="rank-entry" style="--rc:#888888">
+    <div class="rank-left">
+      <div class="rank-symbol-big">◇</div>
+      <div class="rank-letter">Rang E</div>
+    </div>
+    <div class="rank-right">
+      <div class="rank-title">L'Éveillé Ordinaire</div>
+      <div class="rank-subtitle">Le Point de Départ</div>
+      <div class="rank-body">
+        <p>Le rang E représente <strong>la majorité des éveillés</strong> — environ 60% de ceux qui passent par le Centre d'Évaluation à l'Éveil. Ces individus possèdent un éveil confirmé, mais leurs capacités dépassent à peine les limites humaines normales.</p>
+        <p>Un éveillé rang E peut généralement porter des charges deux fois supérieures à la normale, réagir légèrement plus vite qu'un humain standard, et présente une résistance aux maladies accrue. Certains développent une petite compétence spécifique — une légère pyrokinésie, une sensibilité aux énergies magiques — qui reste inutilisable en combat direct.</p>
+        <p>La plupart des rang E rejoignent des guildes comme <strong>soutien logistique ou éclaireurs non-combattants</strong>. Certains travaillent pour les gouvernements comme détecteurs de failles émergentes.</p>
+      </div>
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-val">~60%</div><div class="rank-stat-label">des éveillés</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Rang C</div><div class="rank-stat-label">Donjons max</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">2–5 ans</div><div class="rank-stat-label">Pour passer rang D</div></div>
+      </div>
+      <div class="rank-epreuve">
+        <div class="rank-epreuve-title">Épreuve de Passage — Rang D</div>
+        <p>Compléter 20 donjons de rang E sans décès dans l'équipe + évaluation de capacités par un jury de rang B minimum.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rank-entry" style="--rc:#66bb88">
+    <div class="rank-left">
+      <div class="rank-symbol-big">◈</div>
+      <div class="rank-letter">Rang D</div>
+    </div>
+    <div class="rank-right">
+      <div class="rank-title">Le Combattant Confirmé</div>
+      <div class="rank-subtitle">Premier Vrai Rang</div>
+      <div class="rank-body">
+        <p>Le rang D marque l'entrée dans la vie de chasseur professionnel. Un éveillé D est capable de <strong>participer activement à des raids de rang C</strong> et de prendre en charge des missions solo dans les donjons de rang D.</p>
+        <p>À ce niveau, les capacités d'éveil commencent à se définir clairement. La classe s'affirme, les premières compétences actives apparaissent. Un rang D Guerrier peut sentir la solidité de ses coups. Un rang D Mage contrôle ses premiers sorts élémentaires.</p>
+      </div>
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-val">~22%</div><div class="rank-stat-label">des éveillés</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Rang B</div><div class="rank-stat-label">Donjons max</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">3–7 ans</div><div class="rank-stat-label">Pour passer rang C</div></div>
+      </div>
+      <div class="rank-epreuve">
+        <div class="rank-epreuve-title">Épreuve de Passage — Rang C</div>
+        <p>Compléter un donjon de rang C en tant que chef d'équipe + démonstration de maîtrise de 3 compétences actives.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rank-entry" style="--rc:#4db8ff">
+    <div class="rank-left">
+      <div class="rank-symbol-big">⬡</div>
+      <div class="rank-letter">Rang C</div>
+    </div>
+    <div class="rank-right">
+      <div class="rank-title">Le Chasseur Compétent</div>
+      <div class="rank-subtitle">Rang Intermédiaire</div>
+      <div class="rank-body">
+        <p>Un rang C est un chasseur autonome et respecté. Il peut choisir ses missions, négocier ses contrats avec les guildes, et <strong>mener des raids de rang B en équipe équilibrée</strong>. C'est le rang où la majorité des chasseurs professionnels restent toute leur carrière.</p>
+        <p>Les capacités deviennent impressionnantes pour un civil non-éveillé. Un Guerrier rang C peut traverser un mur de béton. Un Mage rang C peut générer des explosions visibles à plusieurs kilomètres.</p>
+      </div>
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-val">~12%</div><div class="rank-stat-label">des éveillés</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Rang A</div><div class="rank-stat-label">Donjons max</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">5–15 ans</div><div class="rank-stat-label">Pour passer rang B</div></div>
+      </div>
+      <div class="rank-epreuve">
+        <div class="rank-epreuve-title">Épreuve de Passage — Rang B</div>
+        <p>Vaincre un boss de donjon de rang B en combat solo + évaluation de résistance physique et mentale.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rank-entry" style="--rc:#a67cff">
+    <div class="rank-left">
+      <div class="rank-symbol-big">⬟</div>
+      <div class="rank-letter">Rang B</div>
+    </div>
+    <div class="rank-right">
+      <div class="rank-title">L'Élite du Corps</div>
+      <div class="rank-subtitle">Rang de Prestige</div>
+      <div class="rank-body">
+        <p>Le rang B est le premier rang considéré comme "élite" par les grandes guildes. Un éveillé B est <strong>recherché, bien payé, et respecté</strong> même hors du monde des chasseurs. Les médias couvrent les éveillés rang B impliqués dans des incidents majeurs.</p>
+        <p>À ce niveau, les capacités physiques dépassent largement ce que la biologie humaine devrait permettre. Un Tank rang B peut résister à des explosions militaires. Un Assassin rang B peut parcourir 100m en moins d'une seconde.</p>
+      </div>
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-val">~4%</div><div class="rank-stat-label">des éveillés</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Rang S</div><div class="rank-stat-label">Donjons max</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Rare</div><div class="rank-stat-label">Passage rang A</div></div>
+      </div>
+      <div class="rank-epreuve">
+        <div class="rank-epreuve-title">Épreuve de Passage — Rang A</div>
+        <p>Compléter un donjon de rang A en équipe de 3 maximum + évaluation par un jury de rang SS ou S.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rank-entry" style="--rc:#ff9060">
+    <div class="rank-left">
+      <div class="rank-symbol-big">◉</div>
+      <div class="rank-letter">Rang A</div>
+    </div>
+    <div class="rank-right">
+      <div class="rank-title">Le Chasseur Légendaire</div>
+      <div class="rank-subtitle">Rang Quasi-Mythique</div>
+      <div class="rank-body">
+        <p>Un éveillé rang A est une <strong>légende vivante</strong>. Moins de 200 chasseurs rang A sont confirmés dans le monde entier. Les gouvernements les suivent, les guildes les courtisent avec des contrats à huit chiffres, et le grand public les connaît par leur nom.</p>
+        <p>Leur puissance dépasse les instruments de mesure standard. Certains rang A ont démontré la capacité de fermer seuls des failles de rang B — un exploit qui nécessite normalement une équipe complète de rang C.</p>
+      </div>
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-val">&lt;200</div><div class="rank-stat-label">Dans le monde</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Rang S</div><div class="rank-stat-label">Donjons solo</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Extrême</div><div class="rank-stat-label">Passage rang S</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rank-entry" style="--rc:#f0c060">
+    <div class="rank-left">
+      <div class="rank-symbol-big">✦</div>
+      <div class="rank-letter">Rang S</div>
+    </div>
+    <div class="rank-right">
+      <div class="rank-title">Le Pilier du Monde</div>
+      <div class="rank-subtitle">Au-delà de l'Humain</div>
+      <div class="rank-body">
+        <p>Les rang S ne sont plus vraiment des chasseurs. Ce sont des <strong>forces de la nature</strong> que les gouvernements intègrent dans leurs protocoles de défense nationale. Chaque rang S est officiellement connu des services secrets de tous les pays du monde.</p>
+        <p>Un rang S peut fermer seul une faille de rang A. Sa simple présence dans une zone en crise peut stopper une vague de monstres — les créatures semblent instinctivement percevoir leur puissance et éviter le combat.</p>
+      </div>
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-val">&lt;30</div><div class="rank-stat-label">Dans le monde</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Militaire</div><div class="rank-stat-label">Statut officiel</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Inconnu</div><div class="rank-stat-label">Passage rang SS</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rank-entry" style="--rc:#ff6030">
+    <div class="rank-left">
+      <div class="rank-symbol-big">⚡</div>
+      <div class="rank-letter">Rang SS</div>
+    </div>
+    <div class="rank-right">
+      <div class="rank-title">L'Anomalie</div>
+      <div class="rank-subtitle">Hors Classification</div>
+      <div class="rank-body">
+        <p>Le rang SS n'est pas officiellement reconnu par la Fédération Mondiale des Guildes. Il a été <strong>créé officieusement</strong> pour désigner les éveillés dont la puissance dépasse celle des rang S de façon si drastique qu'une nouvelle catégorie s'est imposée d'elle-même.</p>
+        <p>Moins de 5 individus rang SS sont confirmés. Certains gouvernements en soupçonnent davantage — des gens qui ont choisi de cacher leur rang pour vivre normalement. La théorie dominante est que le rang SS n'est pas une progression — c'est une <strong>transformation fondamentale</strong> de ce qu'est un être humain.</p>
+        <p>Un rang SS peut fermer seul une faille de rang S. Certains témoins décrivent avoir vu un rang SS absorber une explosion nucléaire de faible puissance lors d'un incident classifié en 2023.</p>
+      </div>
+      <div class="rank-stats">
+        <div class="rank-stat"><div class="rank-stat-val">&lt;5</div><div class="rank-stat-label">Confirmés</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">S</div><div class="rank-stat-label">Failles solo</div></div>
+        <div class="rank-stat"><div class="rank-stat-val">Mythe</div><div class="rank-stat-label">Statut public</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div class="progression-section">
+<div class="container">
+  <div class="section-label">◈ PROGRESSION</div>
+  <div class="section-title">Comment Progresser en Rang</div>
+  <div class="info-grid">
+    <div class="info-card">
+      <h3>L'Expérience de Donjon</h3>
+      <p>La principale source de progression reste l'expérience accumulée en donjon. Chaque rang de donjon complété renforce l'éveillé — mais seulement si le donjon représente un défi réel. Un rang C qui fait du donjon D ne progresse plus.</p>
+    </div>
+    <div class="info-card">
+      <h3>Les Artefacts d'Évolution</h3>
+      <p>Certains artefacts rares trouvés dans les donjons de rang S+ peuvent accélérer drastiquement la progression. Ces objets sont classifiés par les gouvernements et leur accès est strictement contrôlé.</p>
+    </div>
+    <div class="info-card">
+      <h3>La Limite du Plafond</h3>
+      <p>90% des éveillés atteignent un "plafond naturel" — un rang qu'ils ne peuvent plus dépasser quelle que soit leur pratique. Ce phénomène est lié au potentiel d'éveil initial. Il est irréversible et déterminé à la naissance.</p>
+    </div>
+    <div class="info-card">
+      <h3>Les Rares Exceptions</h3>
+      <p>Quelques éveillés dans l'histoire ont brisé leur plafond naturel — généralement suite à un événement traumatique ou une exposition à une énergie de faille de rang inconnu. Ces cas sont étudiés avec obsession par les scientifiques.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  <div class="footer-logo">⟨ RIFT ✦ VENATOR ⟩</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Accueil</a></li><li><a href="rangs.html">Rangs</a></li><li><a href="classes.html">Classes</a></li>
+    <li><a href="portails.html">Portails</a></li><li><a href="donjons.html">Donjons</a></li>
+    <li><a href="guildes.html">Guildes</a></li><li><a href="artefacts.html">Artefacts</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 RiftVenator · Tous droits réservés · Univers fictif</p>
+</footer>
+<script>
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.padding=window.scrollY>50?'0.7rem 2rem':'1rem 2rem';
+});
+</script>
+</body>
+</html>

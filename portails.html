@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portails & Failles — RiftVenator</title>
+<meta name="description" content="Encyclopédie complète des portails et failles sur RiftVenator : formation, types, rangs, mystères. Lore approfondi du monde des éveillés.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--void:#020408;--abyss:#080d14;--shadow:#0d1520;--portal:#4db8ff;--arcane:#7b4dff;--arcane-glow:#a67cff;--gold-bright:#f0c060;--text-prime:#e8edf5;--text-dim:#8a9bb5;--text-ghost:#4a5a70;--border-rift:rgba(77,184,255,0.2);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--void);color:var(--text-prime);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(2,4,8,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-rift);transition:padding 0.3s;}
+.nav-logo{font-family:'Cinzel Decorative',serif;font-size:1rem;font-weight:700;color:var(--portal);text-decoration:none;}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--portal);}
+.page-hero{padding:8rem 2rem 5rem;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border-rift);}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 60%,rgba(123,77,255,0.08) 0%,rgba(77,184,255,0.05) 40%,transparent 70%);}
+.portal-anim{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.portal-anim span{position:absolute;border-radius:50%;border:1px solid;transform:translate(-50%,-50%);animation:pulse 4s ease-in-out infinite;}
+.portal-anim span:nth-child(1){width:200px;height:200px;border-color:rgba(77,184,255,0.12);animation-delay:0s;}
+.portal-anim span:nth-child(2){width:400px;height:400px;border-color:rgba(123,77,255,0.07);animation-delay:1s;}
+.portal-anim span:nth-child(3){width:600px;height:600px;border-color:rgba(77,184,255,0.04);animation-delay:2s;}
+.portal-anim span:nth-child(4){width:900px;height:900px;border-color:rgba(123,77,255,0.02);animation-delay:3s;}
+@keyframes pulse{0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.02);}}
+.page-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--portal);text-transform:uppercase;margin-bottom:1rem;position:relative;}
+.page-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;margin-bottom:1rem;position:relative;}
+.page-desc{font-size:1.1rem;font-style:italic;color:var(--text-dim);max-width:600px;margin:0 auto;line-height:1.7;position:relative;}
+.container{max-width:980px;margin:0 auto;padding:0 2rem;}
+section{padding:5rem 2rem;}
+.section-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--portal);text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:1rem;}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border-rift),transparent);max-width:200px;}
+.section-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin-bottom:0.5rem;}
+.section-sub{font-size:1rem;font-style:italic;color:var(--text-dim);margin-bottom:3rem;line-height:1.7;}
+.prose p{font-size:1.05rem;line-height:1.85;color:var(--text-dim);margin-bottom:1.2rem;}
+.prose p strong{color:var(--text-prime);}
+.prose h3{font-family:'Cinzel Decorative',serif;font-size:1.1rem;color:var(--portal);margin:2rem 0 0.8rem;}
+.quote-block{border-left:2px solid var(--arcane-glow);padding:1rem 1.5rem;background:rgba(123,77,255,0.04);margin:2rem 0;}
+.quote-block p{font-size:1rem;font-style:italic;color:var(--text-prime);margin:0;line-height:1.7;}
+.quote-block cite{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--text-ghost);display:block;margin-top:0.5rem;letter-spacing:0.1em;}
+
+/* PHASES */
+.phases-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0;}
+.phase-card{border:1px solid var(--pc,var(--border-rift));padding:1.8rem;background:var(--shadow);position:relative;overflow:hidden;}
+.phase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--pc,var(--portal));}
+.phase-num{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.3em;color:var(--pc,var(--portal));text-transform:uppercase;margin-bottom:0.5rem;}
+.phase-name{font-family:'Cinzel Decorative',serif;font-size:1rem;margin-bottom:0.8rem;}
+.phase-desc{font-size:0.9rem;color:var(--text-dim);line-height:1.7;}
+.phase-timer{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--pc,var(--portal));margin-top:0.8rem;}
+
+/* TYPES */
+.types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin:2rem 0;}
+.type-card{border:1px solid var(--tc,var(--border-rift));padding:1.8rem;background:var(--abyss);transition:transform 0.3s,border-color 0.3s;}
+.type-card:hover{transform:translateY(-4px);border-color:var(--tc,var(--portal));}
+.type-icon{font-size:2rem;margin-bottom:0.8rem;}
+.type-name{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--tc,var(--portal));margin-bottom:0.5rem;}
+.type-desc{font-size:0.9rem;color:var(--text-dim);line-height:1.7;}
+.type-badge{font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;padding:0.2rem 0.6rem;border:1px solid var(--tc,var(--border-rift));color:var(--tc,var(--portal));margin-top:0.8rem;display:inline-block;text-transform:uppercase;}
+
+/* MYSTERES */
+.mystery-list{display:flex;flex-direction:column;gap:1.5rem;margin:2rem 0;}
+.mystery-item{padding:1.5rem 2rem;border-left:3px solid var(--arcane);background:linear-gradient(to right,rgba(123,77,255,0.05),transparent);}
+.mystery-q{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--arcane-glow);margin-bottom:0.5rem;}
+.mystery-a{font-size:0.95rem;color:var(--text-dim);line-height:1.7;}
+
+footer{background:var(--void);border-top:1px solid rgba(77,184,255,0.08);padding:3rem 2rem;text-align:center;}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--portal);margin-bottom:1rem;}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;list-style:none;margin:1rem 0;flex-wrap:wrap;}
+.footer-links a{font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--text-ghost);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.footer-links a:hover{color:var(--portal);}
+.footer-copy{font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--text-ghost);text-transform:uppercase;margin-top:1rem;}
+@media(max-width:768px){.nav-links{display:none;}.phases-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">⟨ RIFT ✦ VENATOR ⟩</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="rangs.html">Rangs</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="portails.html" class="active">Portails</a></li>
+    <li><a href="donjons.html">Donjons</a></li>
+    <li><a href="guildes.html">Guildes</a></li>
+    <li><a href="artefacts.html">Artefacts</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="portal-anim"><span></span><span></span><span></span><span></span></div>
+  <div class="page-label">🌀 ENCYCLOPÉDIE DES FAILLES</div>
+  <h1 class="page-title">Portails & Failles</h1>
+  <p class="page-desc">Des déchirures dans le tissu de la réalité. Personne ne sait avec certitude pourquoi elles existent. Ce qu'on sait, c'est qu'elles ne s'arrêteront pas.</p>
+</div>
+
+<section style="background:var(--abyss)">
+<div class="container">
+  <div class="section-label">◈ FORMATION</div>
+  <div class="section-title">Comment Naît une Faille</div>
+  <p class="section-sub">Une faille ne surgit pas instantanément. Elle se forme en plusieurs phases distinctes que les éveillés entraînés apprennent à reconnaître.</p>
+  <div class="prose">
+    <p>Une faille commence par une <strong>distorsion atmosphérique localisée</strong> — une légère vibration dans l'air, une baisse de température de 2 à 3 degrés, un silence inexpliqué chez les animaux dans un rayon de 500 mètres. Ceux qui savent reconnaître ces signes ont entre 4 et 7 minutes pour évacuer la zone.</p>
+    <p>Les instruments scientifiques enregistrent ces anomalies <strong>jusqu'à 48 heures avant</strong> l'apparition visible de la faille — mais cette fenêtre de détection n'a été identifiée qu'en 2022, et les systèmes d'alerte précoce restent imparfaits.</p>
+  </div>
+  <div class="phases-grid">
+    <div class="phase-card" style="--pc:rgba(136,136,136,0.8)">
+      <div class="phase-num">Phase 01</div>
+      <div class="phase-name">Distorsion</div>
+      <div class="phase-desc">L'espace commence à se plier imperceptiblement. Seuls les éveillés rang B+ peuvent détecter cette phase. Les instruments enregistrent des anomalies gravitationnelles mineures.</div>
+      <div class="phase-timer">⏱ 0 à 4 minutes</div>
+    </div>
+    <div class="phase-card" style="--pc:rgba(77,184,255,0.8)">
+      <div class="phase-num">Phase 02</div>
+      <div class="phase-name">Cristallisation</div>
+      <div class="phase-desc">Le portail prend forme — une membrane translucide entre dimensions. À ce stade, il est encore possible de le sceller avec suffisamment de magie concentrée. Fenêtre critique.</div>
+      <div class="phase-timer">⏱ 4 à 6 minutes</div>
+    </div>
+    <div class="phase-card" style="--pc:rgba(123,77,255,0.8)">
+      <div class="phase-num">Phase 03</div>
+      <div class="phase-name">Stabilisation</div>
+      <div class="phase-desc">Le portail est maintenant permanent. Impossible à fermer depuis l'extérieur. La seule façon de le sceller est de pénétrer dans le donjon et de vaincre le boss final.</div>
+      <div class="phase-timer">⏱ 6 à 8 minutes</div>
+    </div>
+    <div class="phase-card" style="--pc:rgba(204,34,34,0.8)">
+      <div class="phase-num">Phase 04</div>
+      <div class="phase-name">Effusion</div>
+      <div class="phase-desc">Si le donjon n'est pas résolu dans les 72h, les créatures sortent dans notre monde. Un débordement de faille — les événements les plus meurtriers depuis l'apparition des portails.</div>
+      <div class="phase-timer">⏱ Après 72h non-résolues</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section style="background:var(--void)">
+<div class="container">
+  <div class="section-label">⬡ CLASSIFICATION</div>
+  <div class="section-title">Types de Portails</div>
+  <p class="section-sub">Tous les portails ne se ressemblent pas. Les chercheurs en ont identifié six types distincts, chacun avec ses caractéristiques propres.</p>
+  <div class="types-grid">
+    <div class="type-card" style="--tc:rgba(136,136,136,0.9)">
+      <div class="type-icon">🔘</div>
+      <div class="type-name">Faille Grise</div>
+      <div class="type-desc">La plus courante. Donjon standard avec monstres de faible à moyen rang. Aucune particularité notable. Référence de base pour la classification.</div>
+      <div class="type-badge">Rang E–C</div>
+    </div>
+    <div class="type-card" style="--tc:rgba(77,184,255,0.9)">
+      <div class="type-icon">💠</div>
+      <div class="type-name">Faille Azur</div>
+      <div class="type-desc">Portail à prédominance aquatique ou glaciale. Les créatures utilisent des capacités de congélation. Dangereux pour les classes à forte dépendance au mouvement.</div>
+      <div class="type-badge">Rang D–B</div>
+    </div>
+    <div class="type-card" style="--tc:rgba(204,34,34,0.9)">
+      <div class="type-icon">🔴</div>
+      <div class="type-name">Faille Écarlate</div>
+      <div class="type-desc">Portail à haute densité démoniaque. Boss possédant des capacités de feu et de corruption. Taux de mortalité 3x supérieur aux failles grises de même rang.</div>
+      <div class="type-badge">Rang C–S</div>
+    </div>
+    <div class="type-card" style="--tc:rgba(123,77,255,0.9)">
+      <div class="type-icon">🟣</div>
+      <div class="type-name">Faille Sombre</div>
+      <div class="type-desc">Les créatures à l'intérieur utilisent des capacités de manipulation mentale et d'illusion. Plusieurs équipes de rang A ont été retrouvées inconscientes à l'entrée sans explication.</div>
+      <div class="type-badge">Rang B–SS</div>
+    </div>
+    <div class="type-card" style="--tc:rgba(240,192,96,0.9)">
+      <div class="type-icon">⭐</div>
+      <div class="type-name">Faille Dorée</div>
+      <div class="type-desc">Extrêmement rare. Contient les artefacts les plus précieux jamais extraits. Mais aussi les boss les plus imprévisibles. Aucun pattern répétable n'a été établi.</div>
+      <div class="type-badge">Rang S–SS</div>
+    </div>
+    <div class="type-card" style="--tc:rgba(0,0,0,0.9);border-color:rgba(255,255,255,0.15)">
+      <div class="type-icon">⬛</div>
+      <div class="type-name">Faille Noire</div>
+      <div class="type-desc">Rang inconnu. Aucun éveillé n'en est ressorti pour en parler, à l'exception d'un seul rang SS qui refuse de décrire ce qu'il a vu à l'intérieur. Deux recensées dans le monde.</div>
+      <div class="type-badge">Rang Inconnu</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section style="background:var(--abyss)">
+<div class="container">
+  <div class="section-label">◈ MYSTÈRES</div>
+  <div class="section-title">Les Questions Sans Réponse</div>
+  <p class="section-sub">Dix ans après la Première Faille, les scientifiques ont plus de questions qu'au début. Voici les grandes énigmes que personne ne peut résoudre.</p>
+  <div class="mystery-list">
+    <div class="mystery-item">
+      <div class="mystery-q">Pourquoi les failles suivent-elles un pattern géographique non-aléatoire ?</div>
+      <div class="mystery-a">Mappées sur une carte mondiale, les failles forment une <strong>structure géométrique précise</strong> — un pentagramme à l'échelle planétaire dont les chercheurs refusent de parler publiquement. Le gouvernement français a classifié les données cartographiques complètes en 2022.</div>
+    </div>
+    <div class="mystery-item">
+      <div class="mystery-q">Qui — ou quoi — contrôle les monstres des donjons ?</div>
+      <div class="mystery-a">Les créatures ne sont pas des animaux sauvages. Elles sont <strong>organisées, tactiques, et semblent apprendre</strong>. Des scouts précèdent les vagues. Les boss s'adaptent aux stratégies répétées. Une intelligence les dirige depuis l'intérieur des failles.</div>
+    </div>
+    <div class="mystery-item">
+      <div class="mystery-q">Pourquoi les failles sont-elles apparues simultanément sur tous les continents le même jour ?</div>
+      <div class="mystery-a">Le 14 mars 2015, <strong>247 failles se sont ouvertes en 72 heures</strong> sur six continents. Une coïncidence statistiquement impossible selon les modèles mathématiques. La thèse officielle de "phénomène naturel spontané" n'a jamais convaincu les experts indépendants.</div>
+    </div>
+    <div class="mystery-item">
+      <div class="mystery-q">D'où vient l'énergie qui permet aux éveillés d'avoir des pouvoirs ?</div>
+      <div class="mystery-a">L'énergie d'éveil est identique à l'énergie émise par les failles. Les éveillés sont <strong>littéralement alimentés par la même source que les portails</strong>. Cette découverte, faite en 2019, a été supprimée des publications scientifiques officielles.</div>
+    </div>
+    <div class="mystery-item">
+      <div class="mystery-q">Que se trouve-t-il réellement au fond d'une faille de rang SS ?</div>
+      <div class="mystery-a">Le seul éveillé à y être entré et en être ressorti a prononcé une seule phrase avant de disparaître de tout registre public : <strong>"Ce n'est pas une invasion. C'est un test."</strong></div>
+    </div>
+  </div>
+  <div class="quote-block">
+    <p>"Les failles ne sont pas une catastrophe naturelle. Elles sont une infrastructure. Quelqu'un les a construites, les entretient, et les utilise dans un but que nous ne comprenons pas encore."</p>
+    <cite>— Dr. Amara Diallo, Institut de Recherche sur les Failles, rapport non-publié, 2024</cite>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="footer-logo">⟨ RIFT ✦ VENATOR ⟩</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Accueil</a></li><li><a href="rangs.html">Rangs</a></li><li><a href="classes.html">Classes</a></li>
+    <li><a href="portails.html">Portails</a></li><li><a href="donjons.html">Donjons</a></li>
+    <li><a href="guildes.html">Guildes</a></li><li><a href="artefacts.html">Artefacts</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 RiftVenator · Tous droits réservés · Univers fictif</p>
+</footer>
+<script>window.addEventListener('scroll',()=>{document.querySelector('nav').style.padding=window.scrollY>50?'0.7rem 2rem':'1rem 2rem';});</script>
+</body>
+</html>

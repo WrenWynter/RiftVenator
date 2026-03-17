@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guildes — RiftVenator</title>
+<meta name="description" content="Guide complet des guildes sur RiftVenator : comment rejoindre, les grandes guildes du monde, contrats, hiérarchie et politique des guildes.">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--void:#020408;--abyss:#080d14;--shadow:#0d1520;--portal:#4db8ff;--arcane:#7b4dff;--arcane-glow:#a67cff;--gold-bright:#f0c060;--text-prime:#e8edf5;--text-dim:#8a9bb5;--text-ghost:#4a5a70;--border-rift:rgba(77,184,255,0.2);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--void);color:var(--text-prime);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.4;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;background:rgba(2,4,8,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-rift);transition:padding 0.3s;}
+.nav-logo{font-family:'Cinzel Decorative',serif;font-size:1rem;font-weight:700;color:var(--portal);text-decoration:none;}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--portal);}
+.page-hero{padding:8rem 2rem 4rem;text-align:center;position:relative;background:linear-gradient(180deg,var(--abyss),var(--void));border-bottom:1px solid var(--border-rift);}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(34,170,100,0.06) 0%,transparent 70%);}
+.page-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--portal);text-transform:uppercase;margin-bottom:1rem;position:relative;}
+.page-title{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;margin-bottom:1rem;position:relative;}
+.page-desc{font-size:1.1rem;font-style:italic;color:var(--text-dim);max-width:600px;margin:0 auto;line-height:1.7;position:relative;}
+.container{max-width:1000px;margin:0 auto;padding:0 2rem;}
+section{padding:5rem 2rem;}
+.section-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.4em;color:var(--portal);text-transform:uppercase;margin-bottom:0.8rem;display:flex;align-items:center;gap:1rem;}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border-rift),transparent);max-width:200px;}
+.section-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;margin-bottom:0.5rem;}
+.section-sub{font-size:1rem;font-style:italic;color:var(--text-dim);margin-bottom:3rem;line-height:1.7;}
+.prose p{font-size:1.05rem;line-height:1.85;color:var(--text-dim);margin-bottom:1rem;}
+.prose p strong{color:var(--text-prime);}
+
+/* GUILDES GRID */
+.guildes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin:2rem 0;}
+.guilde-card{border:1px solid var(--gc,var(--border-rift));background:var(--shadow);overflow:hidden;transition:transform 0.3s;}
+.guilde-card:hover{transform:translateY(-4px);}
+.guilde-banner{height:80px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:linear-gradient(135deg,var(--abyss),var(--shadow));position:relative;}
+.guilde-banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--gc,rgba(77,184,255,0.08)) 0%,transparent 70%);}
+.guilde-body{padding:1.5rem;}
+.guilde-rank{font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--gc,var(--portal));text-transform:uppercase;margin-bottom:0.5rem;}
+.guilde-name{font-family:'Cinzel Decorative',serif;font-size:1.1rem;margin-bottom:0.3rem;}
+.guilde-country{font-size:0.85rem;color:var(--text-ghost);margin-bottom:1rem;font-style:italic;}
+.guilde-desc{font-size:0.9rem;color:var(--text-dim);line-height:1.7;margin-bottom:1.2rem;}
+.guilde-stats{display:flex;gap:1rem;flex-wrap:wrap;}
+.gstat{text-align:center;flex:1;}
+.gstat-val{font-family:'Share Tech Mono',monospace;font-size:0.9rem;color:var(--gc,var(--portal));font-weight:700;}
+.gstat-label{font-family:'Share Tech Mono',monospace;font-size:0.52rem;color:var(--text-ghost);text-transform:uppercase;letter-spacing:0.1em;}
+
+/* CONTRAT */
+.contrat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0;}
+.contrat-card{border:1px solid var(--border-rift);padding:1.8rem;background:var(--shadow);}
+.contrat-card h3{font-family:'Cinzel Decorative',serif;font-size:1rem;color:var(--portal);margin-bottom:1rem;}
+.contrat-card ul{list-style:none;display:flex;flex-direction:column;gap:0.6rem;}
+.contrat-card ul li{font-size:0.9rem;color:var(--text-dim);line-height:1.6;padding-left:1rem;position:relative;}
+.contrat-card ul li::before{content:'◈';position:absolute;left:0;color:var(--portal);font-size:0.7rem;}
+.contrat-card ul li strong{color:var(--text-prime);}
+.alert-box{border:1px solid rgba(204,34,34,0.4);background:rgba(204,34,34,0.05);padding:1.2rem 1.5rem;margin:1.5rem 0;}
+.alert-box p{font-size:0.95rem;color:var(--text-dim);margin:0;line-height:1.7;}
+.alert-box p strong{color:#ff6666;}
+
+footer{background:var(--void);border-top:1px solid rgba(77,184,255,0.08);padding:3rem 2rem;text-align:center;}
+.footer-logo{font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--portal);margin-bottom:1rem;}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;list-style:none;margin:1rem 0;flex-wrap:wrap;}
+.footer-links a{font-family:'Share Tech Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;color:var(--text-ghost);text-decoration:none;text-transform:uppercase;transition:color 0.3s;}
+.footer-links a:hover{color:var(--portal);}
+.footer-copy{font-family:'Share Tech Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:var(--text-ghost);text-transform:uppercase;margin-top:1rem;}
+@media(max-width:768px){.nav-links{display:none;}.contrat-grid{grid-template-columns:1fr;}.guildes-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">⟨ RIFT ✦ VENATOR ⟩</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="rangs.html">Rangs</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="portails.html">Portails</a></li>
+    <li><a href="donjons.html">Donjons</a></li>
+    <li><a href="guildes.html" class="active">Guildes</a></li>
+    <li><a href="artefacts.html">Artefacts</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-label">🏰 FACTIONS</div>
+  <h1 class="page-title">Les Guildes</h1>
+  <p class="page-desc">Une guilde n'est pas une famille. C'est une entreprise. Certaines te forment, d'autres t'exploitent. Apprendre à faire la différence peut te sauver la vie.</p>
+</div>
+
+<section style="background:var(--abyss)">
+<div class="container">
+  <div class="section-label">◈ CLASSEMENT MONDIAL</div>
+  <div class="section-title">Les Grandes Guildes</div>
+  <p class="section-sub">Les guildes les plus puissantes du monde — leurs réputations, leurs forces, et ce qu'elles ne disent pas dans leurs annonces de recrutement.</p>
+  <div class="guildes-grid">
+    <div class="guilde-card" style="--gc:rgba(240,192,96,0.9)">
+      <div class="guilde-banner">👑</div>
+      <div class="guilde-body">
+        <div class="guilde-rank">Rang S · Guilde #1 Mondiale</div>
+        <div class="guilde-name">Les Chevaliers de l'Aube</div>
+        <div class="guilde-country">🇰🇷 Corée du Sud · Fondée en 2016</div>
+        <p class="guilde-desc">La guilde la plus puissante du monde. Deux rang SS en leur sein, quinze rang A minimum. Accepte uniquement les éveillés rang B et plus. Leurs missions sont souvent des secrets d'État.</p>
+        <div class="guilde-stats">
+          <div class="gstat"><div class="gstat-val">847</div><div class="gstat-label">Membres</div></div>
+          <div class="gstat"><div class="gstat-val">2 × SS</div><div class="gstat-label">Rang max</div></div>
+          <div class="gstat"><div class="gstat-val">312</div><div class="gstat-label">Donjons S</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="guilde-card" style="--gc:rgba(77,184,255,0.9)">
+      <div class="guilde-banner">⚡</div>
+      <div class="guilde-body">
+        <div class="guilde-rank">Rang A · Guilde #4 Mondiale</div>
+        <div class="guilde-name">Tonnerre Blanc</div>
+        <div class="guilde-country">🇫🇷 France · Fondée en 2017</div>
+        <p class="guilde-desc">La première guilde française de niveau mondial. Spécialisée dans les donjons à haute mobilité. Recrutement ouvert aux rang C avec potentiel démontré. Réputation de former les meilleurs Archers d'Europe.</p>
+        <div class="guilde-stats">
+          <div class="gstat"><div class="gstat-val">2340</div><div class="gstat-label">Membres</div></div>
+          <div class="gstat"><div class="gstat-val">1 × S</div><div class="gstat-label">Rang max</div></div>
+          <div class="gstat"><div class="gstat-val">89</div><div class="gstat-label">Donjons A</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="guilde-card" style="--gc:rgba(123,77,255,0.9)">
+      <div class="guilde-banner">🌑</div>
+      <div class="guilde-body">
+        <div class="guilde-rank">Rang A · Guilde mystérieuse</div>
+        <div class="guilde-name">Les Spectres Noirs</div>
+        <div class="guilde-country">🌍 Localisation Inconnue · Fondée en 2018</div>
+        <p class="guilde-desc">Personne ne sait exactement où est basée cette guilde. Recrutement uniquement par invitation. Spécialisée dans les missions que les autres guildes refusent. On raconte qu'ils font des choses que les gouvernements ne peuvent pas faire officiellement.</p>
+        <div class="guilde-stats">
+          <div class="gstat"><div class="gstat-val">???</div><div class="gstat-label">Membres</div></div>
+          <div class="gstat"><div class="gstat-val">Inconnu</div><div class="gstat-label">Rang max</div></div>
+          <div class="gstat"><div class="gstat-val">???</div><div class="gstat-label">Missions</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="guilde-card" style="--gc:rgba(200,151,58,0.9)">
+      <div class="guilde-banner">🛡️</div>
+      <div class="guilde-body">
+        <div class="guilde-rank">Rang B · Guilde Formatrice</div>
+        <div class="guilde-name">Bastion de l'Éveil</div>
+        <div class="guilde-country">🇯🇵 Japon · Fondée en 2019</div>
+        <p class="guilde-desc">La meilleure guilde formatrice au monde pour les éveillés débutants. Taux de survie de leurs membres : 94% — le plus élevé de l'industrie. Recrutement dès le rang D avec système de mentorat personnalisé.</p>
+        <div class="guilde-stats">
+          <div class="gstat"><div class="gstat-val">5200</div><div class="gstat-label">Membres</div></div>
+          <div class="gstat"><div class="gstat-val">3 × A</div><div class="gstat-label">Rang max</div></div>
+          <div class="gstat"><div class="gstat-val">94%</div><div class="gstat-label">Survie</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="guilde-card" style="--gc:rgba(204,60,60,0.9)">
+      <div class="guilde-banner">⚔️</div>
+      <div class="guilde-body">
+        <div class="guilde-rank">Rang A · Guilde Agressive</div>
+        <div class="guilde-name">Gladiateurs du Vide</div>
+        <div class="guilde-country">🇺🇸 États-Unis · Fondée en 2016</div>
+        <p class="guilde-desc">La guilde avec le plus haut taux de donjons complétés — et le taux de mortalité de ses membres le plus élevé parmi les guildes de rang A. Ils paient bien. Très bien. Mais beaucoup ne reviennent pas.</p>
+        <div class="guilde-stats">
+          <div class="gstat"><div class="gstat-val">1890</div><div class="gstat-label">Membres</div></div>
+          <div class="gstat"><div class="gstat-val">5 × A</div><div class="gstat-label">Rang max</div></div>
+          <div class="gstat"><div class="gstat-val">38%</div><div class="gstat-label">Rotation/an</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="guilde-card" style="--gc:rgba(34,170,100,0.9)">
+      <div class="guilde-banner">🍃</div>
+      <div class="guilde-body">
+        <div class="guilde-rank">Rang B · Spécialiste Soutien</div>
+        <div class="guilde-name">Sanctuaire des Soigneurs</div>
+        <div class="guilde-country">🇨🇭 Suisse · Fondée en 2020</div>
+        <p class="guilde-desc">La seule guilde au monde composée exclusivement de classes Soutien. Ils ne font pas de raids — ils sont loués comme mercenaires par d'autres guildes pour les donjons de rang A+. Tarif : 50 000€ par mission minimum.</p>
+        <div class="guilde-stats">
+          <div class="gstat"><div class="gstat-val">340</div><div class="gstat-label">Membres</div></div>
+          <div class="gstat"><div class="gstat-val">2 × A</div><div class="gstat-label">Rang max</div></div>
+          <div class="gstat"><div class="gstat-val">100%</div><div class="gstat-label">Soutiens</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section style="background:var(--void)">
+<div class="container">
+  <div class="section-label">◉ RECRUTEMENT</div>
+  <div class="section-title">Comprendre les Contrats de Guilde</div>
+  <p class="section-sub">Un contrat de guilde est un document légal qui détermine ta vie professionnelle — et parfois ta vie tout court. Ne signe jamais sans avoir lu chaque clause.</p>
+  <div class="contrat-grid">
+    <div class="contrat-card">
+      <h3>Ce que tu dois vérifier</h3>
+      <ul>
+        <li><strong>Taux de partage des récompenses :</strong> Standard = 60% pour toi, 40% guilde. Moins de 55% = exploiteur.</li>
+        <li><strong>Clause de non-concurrence :</strong> Interdit de rejoindre une autre guilde. Durée acceptable : 6 mois max.</li>
+        <li><strong>Obligation de missions :</strong> Combien de donjons par mois sont obligatoires ?</li>
+        <li><strong>Clause de décès :</strong> Que se passe-t-il pour ta famille si tu meurs en mission ?</li>
+        <li><strong>Équipement fourni :</strong> La guilde fournit-elle des artefacts ou tout est à ta charge ?</li>
+        <li><strong>Résiliation :</strong> Peux-tu quitter la guilde librement ? Avec quel préavis ?</li>
+      </ul>
+    </div>
+    <div class="contrat-card">
+      <h3>Les Signaux d'Alarme</h3>
+      <ul>
+        <li>Contrat avec <strong>période d'essai non rémunérée</strong> de plus de 2 missions.</li>
+        <li>Clause de <strong>"propriété des artefacts trouvés"</strong> par la guilde — c'est légal mais abusif.</li>
+        <li>Absence de <strong>limite sur le nombre de missions obligatoires</strong> par mois.</li>
+        <li>Clause de <strong>"remboursement de formation"</strong> si tu quittes — piège classique.</li>
+        <li>Recrutement avec <strong>enthousiasme excessif</strong> sans évaluation sérieuse de tes capacités.</li>
+        <li>Taux de rotation des membres <strong>supérieur à 25% par an</strong>.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="alert-box">
+    <p><strong>Règle absolue :</strong> Ne signe jamais un contrat de guilde le jour même de la présentation. Prends 48 à 72 heures minimum. Fais-le relire par un éveillé de confiance qui n'est pas membre de cette guilde. Les guildes sérieuses n'ont pas de problème avec ça.</p>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="footer-logo">⟨ RIFT ✦ VENATOR ⟩</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Accueil</a></li><li><a href="rangs.html">Rangs</a></li><li><a href="classes.html">Classes</a></li>
+    <li><a href="portails.html">Portails</a></li><li><a href="donjons.html">Donjons</a></li>
+    <li><a href="guildes.html">Guildes</a></li><li><a href="artefacts.html">Artefacts</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 RiftVenator · Tous droits réservés · Univers fictif</p>
+</footer>
+<script>window.addEventListener('scroll',()=>{document.querySelector('nav').style.padding=window.scrollY>50?'0.7rem 2rem':'1rem 2rem';});</script>
+</body>
+</html>
